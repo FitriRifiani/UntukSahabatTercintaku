@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebuah Perjalanan untukmu...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Menggunakan font Poppins sebagai dasar untuk tampilan yang bersih */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FDF6F6;
+            /* Warna dasar krem-pink yang lembut */
+            overflow: hidden;
+            /* Mencegah scroll saat animasi */
+        }
+
+        /* Font Playfair Display untuk judul agar terlihat elegan */
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Styling untuk setiap langkah/halaman */
+        .step {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            /* Padding untuk layar kecil */
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .step.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Styling tombol utama */
+        .btn-primary {
+            background-color: #D9AAB7;
+            /* Warna Dusty Rose */
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #C998A7;
+            transform: scale(1.05);
+        }
+
+        /* Styling kartu ucapan dengan efek blur */
+        .card-content {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(217, 170, 183, 0.3);
+        }
+
+        /* Styling untuk warna teks emas yang lembut */
+        .text-gold {
+            color: #B9905A;
+        }
+
+        /* Styling dan animasi untuk partikel di latar belakang */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: float 8s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Animasi untuk foto agar muncul dengan elegan */
+        .photo-frame {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: zoomIn 1.5s forwards cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        @keyframes zoomIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center relative">
+
+    <!-- Container untuk partikel hati dan bintang yang memenuhi layar -->
+    <div id="particle-container" class="absolute inset-0 w-full h-full pointer-events-none"></div>
+
+    <!-- Musik Latar (akan diputar setelah interaksi pertama) -->
+    <audio id="background-music" src="mabruk.mp3" loop></audio>
+
+    <!-- Step 1: Halaman Pembuka -->
+    <div id="step1" class="step active text-center z-10">
+        <div class="text-center text-gray-700">
+            <!-- Ganti [Nama Sahabatmu] dengan namanya -->
+            <h1 class="font-playfair text-4xl sm:text-5xl md:text-6xl text-gold mb-4">Untukmu, Sahabatku</h1>
+            <p class="mb-8 text-base md:text-lg text-gray-500">Aku punya sebuah cerita singkat di hari spesialmu.</p>
+            <button onclick="startJourney()" class="btn-primary font-bold py-3 px-8 rounded-full shadow-lg">
+                Mulai Perjalanan
+            </button>
+        </div>
+    </div>
+
+    <!-- Step 2: Halaman Foto Utama -->
+    <div id="step2" class="step text-center z-10">
+        <h2 class="font-playfair text-3xl md:text-4xl text-gold mb-8">Senyum Terindah di Duniaku...</h2>
+        <div
+            class="photo-frame w-60 h-60 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white p-2 bg-white">
+            <!-- GANTI URL GAMBAR DI BAWAH INI dengan URL foto sahabatmu yang paling kamu suka -->
+            <img src="foto.jpg" alt="Foto Sahabatmu" class="w-full h-full object-cover rounded-full">
+        </div>
+        <button onclick="nextStep(3)" class="btn-primary font-bold py-3 px-8 rounded-full shadow-lg mt-8">
+            Lanjutkan
+        </button>
+    </div>
+
+    <!-- Step 3: Pesan Utama -->
+    <div id="step3" class="step z-10">
+        <div class="card-content w-full max-w-lg md:max-w-2xl rounded-2xl shadow-xl p-6 md:p-10 text-center">
+            <!-- Ganti [Nama Sahabatmu] dengan namanya -->
+            <h2 class="font-playfair text-gold text-4xl md:text-5xl mb-4">Selamat Milad, Fitri Rifiani</h2>
+            <div class="text-left text-gray-700 space-y-4 text-base md:text-lg">
+                <p class="text-center font-semibold mb-6">Barakallah Fii Umrik di usiamu yang ke-20.</p>
+                <p>
+                    Setiap detik dalam empat tahun ini adalah anugerah. Melihatmu tumbuh, berjuang, dan tersenyum adalah
+                    kebahagiaan terbesarku. Kamu bukan hanya sahabat, tapi kompas yang menuntun hatiku.
+                </p>
+                <p>
+                    Di hari kelahiranmu ini, aku tidak membawa hadiah duniawi. Aku hanya membawa sebuah doa tulus dan
+                    harapan yang terukir dalam halaman sederhana ini. Semoga Allah SWT senantiasa memberkahi setiap
+                    langkahmu, melapangkan rezekimu, dan menerangi jalanmu.
+                </p>
+                <p>
+                    Terima kasih telah menjadi penjaga hati yang paling setia. Semoga komitmen suci yang kita rawat ini
+                    selalu berada dalam ridha-Nya, hingga kita tiba di pelabuhan terakhir yang kita impikan bersama.
+                    Aamiin.
+                </p>
+            </div>
+            <button onclick="nextStep(4)" class="btn-primary font-bold mt-8 py-3 px-8 rounded-full shadow-lg">
+                Satu Harapan Terakhir...
+            </button>
+        </div>
+    </div>
+
+    <!-- Step 4: Harapan Terakhir -->
+    <div id="step4" class="step text-center z-10">
+        <!-- <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-center text-gray-700"> -->
+        <div class="flex flex-col items-center justify-center gap-4 text-center text-gray-700"></div>
+        <svg class="w-16 h-16 md:w-20 md:h-20 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+            </path>
+        </svg>
+        <div>
+            <h1 class="font-playfair text-3xl md:text-5xl text-gold mb-4">Harapanku Untukmu</h1>
+            <p class="mb-8 text-base md:text-lg max-w-xl text-gray-500">"Tetaplah menjadi perempuan berhati lembut
+                dengan kekuatan baja. Bahagia selalu ya, calon bidadari surgaku."</p>
+            <p class="text-gray-600 font-semibold">Dari sahabat, dan insya Allah, calon imam-mu.</p>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const music = document.getElementById('background-music');
+        const particleContainer = document.getElementById('particle-container');
+        const particleTypes = ['❤️', '✨', '💖', '⭐', '🌸'];
+
+        function startJourney() {
+            // Memulai musik setelah interaksi pengguna pertama kali
+            music.play().catch(error => console.log("Autoplay was prevented. User needs to interact first."));
+            nextStep(2);
+        }
+
+        function nextStep(stepNumber) {
+            const currentStepElement = document.getElementById(`step${currentStep}`);
+            if (currentStepElement) {
+                currentStepElement.classList.remove('active');
+            }
+
+            const nextStepElement = document.getElementById(`step${stepNumber}`);
+            if (nextStepElement) {
+                nextStepElement.classList.add('active');
+            }
+
+            currentStep = stepNumber;
+        }
+
+        // Fungsi untuk membuat partikel cantik secara acak
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerHTML = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.fontSize = `${Math.random() * 1.5 + 0.5}rem`;
+            particle.style.animationDuration = `${Math.random() * 5 + 5}s`; // Durasi lebih lama agar lebih lembut
+            particle.style.color = `rgba(217, 170, 183, ${Math.random() * 0.5 + 0.3})`;
+
+            particleContainer.appendChild(particle);
+
+            // Hapus partikel setelah selesai animasi untuk menjaga performa
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+
+        // Buat partikel secara berkala
+        setInterval(createParticle, 250);
+    </script>
+</body>
+
+</html>
